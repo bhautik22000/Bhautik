@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHAUTIK - Business</title>
+    <script>
+        function loadXML() {
+            fetch("app_data.xml")
+            .then(response => response.text())
+            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+            .then(data => {
+                let apps = data.getElementsByTagName("app");
+                let container = document.getElementById("app-list");
+                for (let app of apps) {
+                    let name = app.getElementsByTagName("name")[0].textContent;
+                    let desc = app.getElementsByTagName("description")[0].textContent;
+                    let img = app.getElementsByTagName("image")[0].textContent;
+                    
+                    let div = document.createElement("div");
+                    div.innerHTML = `<h3>${name}</h3><p>${desc}</p><img src="${img}" width="150">`;
+                    container.appendChild(div);
+                }
+            });
+        }
+    </script>
+</head>
+<body onload="loadXML()">
+    <h1>Welcome to BHAUTIK</h1>
+    <div id="app-list"></div>
+</body>
+</html>
